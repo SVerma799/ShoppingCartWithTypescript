@@ -1,4 +1,5 @@
 import { Button, Card } from "react-bootstrap";
+import { useShoppingCart } from "../context/ShoppingCartContext";
 import { formatCurrency } from "../utilities/formatcurrency";
 
 type StoreItemProps = {
@@ -9,6 +10,12 @@ type StoreItemProps = {
 };
 
 export default function StoreItem({ id, name, price, imgUrl }: StoreItemProps) {
+  const {
+    getItemQuantity,
+    increaseCartQuantity,
+    decreaseCartQuantity,
+    removeFromCart,
+  } = useShoppingCart();
   const quantity = 0;
   return (
     <Card className="h-100">
@@ -25,16 +32,37 @@ export default function StoreItem({ id, name, price, imgUrl }: StoreItemProps) {
         </Card.Title>
         <div className="mt-auto">
           {quantity == 0 ? (
-            <button className="w-100 btn btn-primary">+ Add to cart</button>
+            <Button
+              className="w-100 btn btn-primary"
+              onClick={() => {
+                increaseCartQuantity(id);
+              }}
+            >
+              + Add to cart
+            </Button>
           ) : (
             <div
               className="d-flex flex-column align-items-center"
               style={{ gap: "0.5rem" }}
             >
               <div className="d-flex align-item-center justify-content-center">
-                <button className="btn btn-primary">-</button>
+                <Button
+                  className="btn btn-primary"
+                  onClick={() => {
+                    increaseCartQuantity(id);
+                  }}
+                >
+                  -
+                </Button>
                 <span className="mx-2">{quantity} in cart</span>
-                <button className="btn btn-primary">+</button>
+                <Button
+                  className="btn btn-primary"
+                  onClick={() => {
+                    decreaseCartQuantity(id);
+                  }}
+                >
+                  +
+                </Button>
               </div>
               <Button variant="danger" size="sm">
                 Remove from cart
